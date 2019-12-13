@@ -27,7 +27,7 @@ const server = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
-
+// quand on se connecte
 io.on('connection', (client) => {
   // connexion du websocket au server
   client.on('socket connected', (data) => {
@@ -40,6 +40,7 @@ io.on('connection', (client) => {
         });
     });
 
+    //qunad on se deconnecte
     client.on('socket disconnected', (data) => {
       console.log(data);
       connection.query('DELETE FROM info WHERE name = ?', data.name ,(err, response) => {

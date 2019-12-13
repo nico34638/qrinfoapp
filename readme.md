@@ -12,3 +12,12 @@ QrInfoApp server fonctionne il suffit de :
 $ node makeDb.js
 $ npm start
 ```
+
+
+## Tableau des choses a faire
+
+|To do                                                          |Do                         |Done            |
+|---------------------------------------------------------------|---------------------------|----------------|
+|Ajouter un systeme de session pour gerer la deconnection       |                           |                |
+|Ajouter l'api qui soccupe d'afficher le contenu et les QRCode  |                           |                |
+|                                                               |                           |                |
