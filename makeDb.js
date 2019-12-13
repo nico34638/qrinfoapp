@@ -22,4 +22,10 @@ connection.connect(function(err) {
     console.log("Table Alter");
   });
 
+  let alter = "ALTER TABLE info ADD UNIQUE(name)";
+  connection.query(alter, function (err, result) {
+    if (err) throw err;
+    console.log("Table Alter");
+  });
+
 });

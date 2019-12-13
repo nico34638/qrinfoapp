@@ -36,16 +36,18 @@ io.on('connection', (client) => {
     });
 
     client.on('socket disconnected', (data) => {
-
-
       console.log(data);
-      connection.query('DELETE FROM info WHERE ?', info, (err, response) => {
+      connection.query('DELETE FROM info WHERE name = ?', data.name ,(err, response) => {
               if(err) throw err;
               console.log('le post est supprimer db');
               console.log('le client est deconnecte');
+              client.emit('socket disconnected', { response: "succees" })
             });
-
-
-          });
+      });
           //ALTER TABLE `info` ADD UNIQUE(`connection_id`);
 });
+
+io.on('disconnect', function () {
+      socket.emit('disconnected');
+
+  });
