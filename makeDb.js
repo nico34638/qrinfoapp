@@ -1,10 +1,13 @@
 const mysql = require('mysql');
+const configDb = require('./config/configDb.json');
+
+console.log(configDb);
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'toor',
-  database: 'qrinfo',
+  host: configDb.host,
+  user: configDb.user,
+  password: configDb.password,
+  database: configDb.database,
 });
 
 connection.connect(function(err) {
@@ -22,8 +25,8 @@ connection.connect(function(err) {
     console.log("Table Alter");
   });
 
-  let alter = "ALTER TABLE info ADD UNIQUE(name)";
-  connection.query(alter, function (err, result) {
+  let alterName = "ALTER TABLE info ADD UNIQUE(name)";
+  connection.query(alterName, function (err, result) {
     if (err) throw err;
     console.log("Table Alter");
   });

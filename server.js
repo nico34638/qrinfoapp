@@ -7,10 +7,10 @@ const path = require('path');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'toor',
-  database: 'qrinfo',
+  host: configDb.host,
+  user: configDb.user,
+  password: configDb.password,
+  database: configDb.database,
 });
 
 
@@ -29,7 +29,7 @@ io.on('connection', (client) => {
       console.log(data);
       connection.query('INSERT INTO info SET ?', data, (err, response) => {
           if(err) throw err;
-          console.log('db insert : OK');
+          console.log('le Client est insérer');
 
         client.emit('socket connected', { response: "succees" })
         });
@@ -39,12 +39,10 @@ io.on('connection', (client) => {
       console.log(data);
       connection.query('DELETE FROM info WHERE name = ?', data.name ,(err, response) => {
               if(err) throw err;
-              console.log('le post est supprimer db');
-              console.log('le client est deconnecte');
+              consol.log("le client est supprime")
               client.emit('socket disconnected', { response: "succees" })
             });
       });
-          //ALTER TABLE `info` ADD UNIQUE(`connection_id`);
 });
 
 io.on('disconnect', function () {
