@@ -5,6 +5,9 @@ const express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
 const mysql = require('mysql');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const configDb = require('./config/configDb.json');
 
 const connection = mysql.createConnection({
   host: configDb.host,
@@ -19,6 +22,8 @@ const INDEX = path.join(__dirname, 'index.html');
 
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
+  .use(morgan('dev'))
+  .use(express.json())
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);

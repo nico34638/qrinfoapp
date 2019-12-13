@@ -12,4 +12,3 @@ QrInfoApp server fonctionne il suffit de :
 $ node makeDb.js
 $ npm start
 ```
-  - tous est bon!
