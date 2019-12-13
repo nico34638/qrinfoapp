@@ -9,8 +9,6 @@ QrInfoApp server fonctionne il suffit de :
   - Créer les tables a l'aide de :
 
 ```sh
-$ cd dillinger
-$ npm install -d
 $ node makeDb.js
 $ npm start
 ```
