@@ -1,13 +1,55 @@
+<!doctype html>
 <html>
+  <head>
+    <title>Socket.IO chat</title>
+
+  </head>
   <body>
-    <p id='server-time'></p>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
     <script>
       var socket = io();
-      var el = document.getElementById('server-time');
-      socket.on('time', function(timeString) {
-        el.innerHTML = 'Server time: ' + timeString;
-      });
+
+      var send = function () {
+        console.log('ok');
+        var name = document.getElementById('m').value;
+        var uniquId = 1;
+        data = {
+          'name' : name,
+          'connection_id' : uniquId
+        };
+        console.log(data);
+        socket.emit('socket connected',data);
+      }
+
+      var detele = function () {
+        console.log('ok');
+        var name = document.getElementById('md').value;
+        var uniquId = 1;
+        data = {
+          'name' : name,
+          'connection_id' : uniquId
+        };
+        console.log(data);
+        socket.emit('socket disconnected',data);
+      }
+
+      var receive = function(msg) {
+        var li = document.createElement('li');
+        li.innerText = msg;
+        document.getElementById('messages').appendChild(li);
+      }
+      socket.on('chat message', receive);
     </script>
+    <div>
+      <ul id="messages"></ul>
+      <div class="zone_saisie">
+          Inserer un Utilisateur
+          <input id="m" /> <button onclick="send()">Send</button>
+          supprimer un Utilisateur
+          <input id="md" /> <button onclick="detele()">Supprimer</button>
+      </div>
+
+    </div>
+
   </body>
 </html>

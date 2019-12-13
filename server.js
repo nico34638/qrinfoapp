@@ -24,24 +24,28 @@ const server = express()
 const io = socketIO(server);
 
 io.on('connection', (client) => {
-
+  // connexion du websocket au server
   client.on('socket connected', (data) => {
+      console.log(data);
       connection.query('INSERT INTO info SET ?', data, (err, response) => {
           if(err) throw err;
           console.log('db insert : OK');
 
-        client.emit('socket connected', { response: "succes" })
+        client.emit('socket connected', { response: "succees" })
         });
     });
 
     client.on('socket disconnected', (data) => {
+
+
+      console.log(data);
       connection.query('DELETE FROM info WHERE ?', info, (err, response) => {
               if(err) throw err;
               console.log('le post est supprimer db');
               console.log('le client est deconnecte');
             });
+
+
           });
-
+          //ALTER TABLE `info` ADD UNIQUE(`connection_id`);
 });
-
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
