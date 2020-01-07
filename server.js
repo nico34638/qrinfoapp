@@ -32,14 +32,11 @@ let ContentRouter = express.Router()
 ContentRouter.route('/api/content')
   // renvoie tout les content
   .get((req, res) => {
-      connection.connect(function(err) {
-      if (err) throw err;
       connection.query("SELECT * FROM content", function (err, result, fields) {
         if (err) throw err;
         console.log(result);
         res.json(success(result));
       });
-    });
   })
   //ajput d'un content
   .post((req, res) => {
@@ -73,6 +70,7 @@ ContentRouter.route('/api/content/:id')
         res.json(error('no name value'));
       }
     })
+    // Supprimer les elements qui ont l'id envoyer en parametre
     .delete((req, res) => {
         let id = req.params.id;
         let reqSql = 'DELETE FROM content WHERE id = ?';
@@ -81,27 +79,21 @@ ContentRouter.route('/api/content/:id')
             console.log("Number of records deleted: " + result.affectedRows);
 
           });
-          connection.connect(function(err) {
-          if (err) throw err;
+
           connection.query("SELECT * FROM content", function (err, result, fields) {
             if (err) throw err;
             console.log(result);
             res.json(success(result));
           });
-        });
-          res.json(success(result));
+          
     })
-
-
-
-
+// Init server
   const server = express()
     //.use((req, res) => res.sendFile(INDEX) )
     .use(morgan('dev'))
     .use(express.json())
     .use(ContentRouter)
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
 
     const io = socketIO(server);
     // quand on se connecte
