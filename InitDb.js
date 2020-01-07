@@ -34,6 +34,13 @@ connection.connect(function(err) {
     console.log("Table info has bee Alter");
     process.exit();
   });
+
+  let tableContent= "CREATE TABLE contnet (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), content TEXT)";
+  connection.query(tableContent, function (err, result) {
+    if (err) throw err;
+    console.log("Table content has been created");
+  });
+
 });
 
 console.log('finished');

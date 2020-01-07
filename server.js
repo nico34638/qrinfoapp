@@ -8,6 +8,7 @@ const mysql = require('mysql');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const configDb = require('./config/configDb.json');
+const {success, error} = require('./Lib/functions.js');
 
 const connection = mysql.createConnection({
   host: configDb.host,
@@ -28,17 +29,33 @@ const INDEX = path.join(__dirname, 'index.html');
 
 let ArticleRouter = express.Router()
 ArticleRouter.route('/api/content')
-  // renvoie tout les membres
+  // renvoie tout les content
   .get((req, res) => {
       connection.connect(function(err) {
       if (err) throw err;
       connection.query("SELECT * FROM content", function (err, result, fields) {
         if (err) throw err;
         console.log(result);
-        res.json(result);
+        res.json(success(result));
+      });
     });
-  });
   })
+  //ajput d'un content
+  .post((req, res) =>{
+    if(req.body.title && req.body.content){
+      console.log('ok')
+      console.log(req.body)
+      connection.query('INSERT INTO content SET ?', req.body, (err, response) => {
+          if(err) throw err;
+          console.log('le content est insérer');
+        });
+      res.json(success(req.body));
+    }
+    else{
+      res.json(error('no name value'));
+    }
+  })
+
 
 
 
