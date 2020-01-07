@@ -27,8 +27,9 @@ const INDEX = path.join(__dirname, 'index.html');
 
 // rest api
 
-let ArticleRouter = express.Router()
-ArticleRouter.route('/api/content')
+// Initialisation du router Content
+let ContentRouter = express.Router()
+ContentRouter.route('/api/content')
   // renvoie tout les content
   .get((req, res) => {
       connection.connect(function(err) {
@@ -41,7 +42,7 @@ ArticleRouter.route('/api/content')
     });
   })
   //ajput d'un content
-  .post((req, res) =>{
+  .post((req, res) => {
     if(req.body.title && req.body.content){
       console.log('ok')
       console.log(req.body)
@@ -54,8 +55,24 @@ ArticleRouter.route('/api/content')
     else{
       res.json(error('no name value'));
     }
-  })
+  });
 
+ContentRouter.route('/api/content/:id')
+  // renvoie les content avec un id particluier
+  .get((req, res) => {
+      if(req.params.id)  {
+        let id = req.params.id;
+        let reqSql = 'SELECT * FROM content WHERE id = ?';
+        connection.query(reqSql, id, function (err, result) {
+          if (err) throw err;
+          console.log(result);
+          res.json(success(result));
+        });
+      }
+      else{
+        res.json(error('no name value'));
+      }
+    })
 
 
 
@@ -64,7 +81,7 @@ ArticleRouter.route('/api/content')
     //.use((req, res) => res.sendFile(INDEX) )
     .use(morgan('dev'))
     .use(express.json())
-    .use(ArticleRouter)
+    .use(ContentRouter)
     .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 
