@@ -73,6 +73,24 @@ ContentRouter.route('/api/content/:id')
         res.json(error('no name value'));
       }
     })
+    .delete((req, res) => {
+        let id = req.params.id;
+        let reqSql = 'DELETE FROM content WHERE id = ?';
+          connection.query(reqSql, id,function (err, result) {
+            if (err) throw err;
+            console.log("Number of records deleted: " + result.affectedRows);
+
+          });
+          connection.connect(function(err) {
+          if (err) throw err;
+          connection.query("SELECT * FROM content", function (err, result, fields) {
+            if (err) throw err;
+            console.log(result);
+            res.json(success(result));
+          });
+        });
+          res.json(success(result));
+    })
 
 
 
